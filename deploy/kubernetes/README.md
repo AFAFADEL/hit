@@ -29,4 +29,4 @@ ssh -i $KEY -L 3000:$NODE_IN_CLUSTER:31300 -L 9090:$NODE_IN_CLUSTER:31090 ubuntu
 ```
 Where all the pertinent information should be entered. Grafana and Prometheus will be available on `http://localhost:3000` or `:9090`.
 
-If on Minikube, you can connect via the VM IP address and the NodePort.
+If on Minikube, you can connect via the VM IP address and the NodePort.22
