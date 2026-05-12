@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogue
+  namespace: habiba-dev
+  labels:
+    app: catalogue
+spec:
+  type: ClusterIP
+  selector:
+    app: catalogue
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
