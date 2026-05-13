@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: catalogue-db
+  namespace: habiba-dev
+
+  labels:
+    app: catalogue-db
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: catalogue-db
+
+  template:
+    metadata:
+      labels:
+        app: catalogue-db
+
+    spec:
+      containers:
+        - name: catalogue-db
+
+          image: weaveworksdemos/catalogue-db:0.3.0
+
+          ports:
+            - containerPort: 3306
+
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_ROOT_PASSWORD
+
+            - name: MYSQL_DATABASE
+              value: socksdb
