@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+
+metadata:
+  name: orders-db
+  namespace: habiba-dev
+
+  labels:
+    app: orders-db
+
+spec:
+  serviceName: orders-db
+
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: orders-db
+
+  template:
+    metadata:
+      labels:
+        app: orders-db
+
+    spec:
+      containers:
+        - name: orders-db
+
+          image: mongo:3.6
+
+          ports:
+            - containerPort: 27017
+
+          volumeMounts:
+            - name: orders-db-storage
+              mountPath: /data/db
+
+  volumeClaimTemplates:
+    - metadata:
+        name: orders-db-storage
+
+      spec:
+        accessModes:
+          - ReadWriteOnce
+
+        resources:
+          requests:
+            storage: 1Gi

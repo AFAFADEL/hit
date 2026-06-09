@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: user-db
+  namespace: habiba-dev
+  labels:
+    app: user-db
+spec:
+  serviceName: user-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-db
+  template:
+    metadata:
+      labels:
+        app: user-db
+    spec:
+      containers:
+        - name: user-db
+          image: weaveworksdemos/user-db:0.4.0
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: user-db-storage
+              mountPath: /data/db
+  volumeClaimTemplates:
+    - metadata:
+        name: user-db-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi

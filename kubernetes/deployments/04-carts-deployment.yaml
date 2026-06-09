@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: carts
+  namespace: habiba-dev
+  labels:
+    app: carts
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: carts
+
+  template:
+    metadata:
+      labels:
+        app: carts
+
+    spec:
+      containers:
+        - name: carts
+          image: weaveworksdemos/carts:0.4.8
+
+          ports:
+            - containerPort: 80
+
+          env:
+            - name: JAVA_OPTS
+              value: "-Xms64m -Xmx128m"
+
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - NET_BIND_SERVICE
+
+      volumes:
+        - name: tmp-volume
+          emptyDir: {}
