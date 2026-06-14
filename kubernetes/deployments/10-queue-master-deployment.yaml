@@ -5,24 +5,36 @@ metadata:
   namespace: habiba-dev
   labels:
     app: queue-master
+
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: queue-master
+
   template:
     metadata:
       labels:
         app: queue-master
+
     spec:
       containers:
         - name: queue-master
           image: weaveworksdemos/queue-master:0.3.1
+
           ports:
             - containerPort: 80
+
+          resources:
+            requests:
+              cpu: "100m"
+            limits:
+              cpu: "500m"
+
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
+
           securityContext:
             readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
@@ -31,6 +43,7 @@ spec:
                 - ALL
               add:
                 - NET_BIND_SERVICE
+
       volumes:
         - name: tmp-volume
           emptyDir: {}

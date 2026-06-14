@@ -27,9 +27,18 @@ spec:
           ports:
             - containerPort: 80
 
+          resources:
+            requests:
+              cpu: "100m"
+            limits:
+              cpu: "500m"
+
           env:
             - name: JAVA_OPTS
-              value: "-Xms64m -Xmx128m"
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: JAVA_OPTS
 
           volumeMounts:
             - name: tmp-volume

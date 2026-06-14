@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: catalogue-db-policy
+  namespace: habiba-dev
+spec:
+  podSelector:
+    matchLabels:
+      app: catalogue-db
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: catalogue
+      ports:
+        - protocol: TCP
+          port: 3306

@@ -5,24 +5,39 @@ metadata:
   namespace: habiba-dev
   labels:
     app: user
+
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: user
+
   template:
     metadata:
       labels:
         app: user
+
     spec:
       containers:
         - name: user
           image: weaveworksdemos/user:0.4.4
+
           ports:
             - containerPort: 80
+
+          resources:
+            requests:
+              cpu: "100m"
+            limits:
+              cpu: "500m"
+
           env:
             - name: MONGO_HOST
-              value: user-db:27017
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: USER_DB_HOST
+
           securityContext:
             readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false

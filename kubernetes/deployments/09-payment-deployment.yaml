@@ -5,21 +5,32 @@ metadata:
   namespace: habiba-dev
   labels:
     app: payment
+
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: payment
+
   template:
     metadata:
       labels:
         app: payment
+
     spec:
       containers:
         - name: payment
           image: weaveworksdemos/payment:0.4.3
+
           ports:
             - containerPort: 80
+
+          resources:
+            requests:
+              cpu: "100m"
+            limits:
+              cpu: "500m"
+
           securityContext:
             readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false

@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: user-db-policy
+  namespace: habiba-dev
+spec:
+  podSelector:
+    matchLabels:
+      app: user-db
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: user
+      ports:
+        - protocol: TCP
+          port: 27017
