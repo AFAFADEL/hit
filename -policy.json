@@ -1,0 +1,29 @@
+{
+    "Role": {
+        "Path": "/",
+        "RoleName": "github-actions-eks-deploy-role",
+        "RoleId": "AROAWP5NJAK2ZQMNIPJC5",
+        "Arn": "arn:aws:iam::446503125685:role/github-actions-eks-deploy-role",
+        "CreateDate": "2026-06-15T15:43:01+00:00",
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Federated": "arn:aws:iam::446503125685:oidc-provider/token.actions.githubusercontent.com"
+                    },
+                    "Action": "sts:AssumeRoleWithWebIdentity",
+                    "Condition": {
+                        "StringLike": {
+                            "token.actions.githubusercontent.com:sub": "repo:OWNER/REPO:ref:refs/heads/main"
+                        },
+                        "StringEquals": {
+                            "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
