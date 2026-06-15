@@ -15,8 +15,8 @@ jobs:
       id-token: write
       contents: read
     env:
-      AWS_REGION: us-west-2     # override in workflow or secrets if needed
-      CLUSTER_NAME: my-eks-cluster
+      AWS_REGION:   us-east-1  # override in workflow or secrets if needed
+      CLUSTER_NAME: sock-shop-dev-eks
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
