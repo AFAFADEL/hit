@@ -132,5 +132,17 @@ output-virtualbox-iso
 /graphs/__pycache__/
 /graphs/*.json
 
-# Ignore Terraform directory
-terraform/
+
+# Terraform local/cache files
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
