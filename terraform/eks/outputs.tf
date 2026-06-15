@@ -24,19 +24,9 @@ output "cluster_certificate_authority" {
   sensitive   = true
 }
 
-output "node_group_id" {
-  description = "EKS Node Group ID"
-  value       = module.eks.eks_managed_node_groups["sock_shop"].id
-}
-
-output "node_group_status" {
-  description = "Status of the EKS node group"
-  value       = module.eks.eks_managed_node_groups["sock_shop"].status
-}
-
-output "node_group_resources" {
-  description = "Resources of the EKS node group"
-  value       = module.eks.eks_managed_node_groups["sock_shop"].resources
+output "node_group_config" {
+  description = "EKS node group configuration values"
+  value       = module.eks.eks_managed_node_groups
 }
 
 output "region" {
