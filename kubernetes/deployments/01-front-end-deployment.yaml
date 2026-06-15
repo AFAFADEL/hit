@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: front-end
-  namespace: habiba-dev
+  namespace: sock-shop
   labels:
     app: front-end
 

@@ -3,7 +3,7 @@ kind: Deployment
 
 metadata:
   name: orders
-  namespace: habiba-dev
+  namespace: sock-shop
   labels:
     app: orders
 

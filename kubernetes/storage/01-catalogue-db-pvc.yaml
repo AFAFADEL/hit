@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 
 metadata:
   name: catalogue-db-pvc
-  namespace: habiba-dev
+  namespace: sock-shop
 
 spec:
   accessModes:

@@ -3,7 +3,7 @@ kind: Service
 
 metadata:
   name: rabbitmq
-  namespace: habiba-dev
+  namespace: sock-shop
   labels:
     app: rabbitmq
 

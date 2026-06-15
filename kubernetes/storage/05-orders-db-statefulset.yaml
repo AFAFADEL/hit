@@ -3,7 +3,7 @@ kind: StatefulSet
 
 metadata:
   name: orders-db
-  namespace: habiba-dev
+  namespace: sock-shop
 
   labels:
     app: orders-db

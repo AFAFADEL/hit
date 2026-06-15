@@ -3,7 +3,7 @@ kind: Service
 
 metadata:
   name: carts
-  namespace: habiba-dev
+  namespace: sock-shop
 
 spec:
   type: ClusterIP

@@ -3,7 +3,7 @@ kind: NetworkPolicy
 
 metadata:
   name: frontend-policy
-  namespace: habiba-dev
+  namespace: sock-shop
 
 spec:
   podSelector:

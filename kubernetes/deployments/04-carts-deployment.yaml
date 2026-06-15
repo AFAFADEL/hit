@@ -3,7 +3,7 @@ kind: Deployment
 
 metadata:
   name: carts
-  namespace: habiba-dev
+  namespace: sock-shop
   labels:
     app: carts
 

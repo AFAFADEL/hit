@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: carts-db
-  namespace: habiba-dev
+  namespace: sock-shop
   labels:
     app: carts-db
 spec:

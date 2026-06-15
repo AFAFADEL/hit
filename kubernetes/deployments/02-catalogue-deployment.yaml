@@ -3,7 +3,7 @@ kind: Deployment
 
 metadata:
   name: catalogue
-  namespace: habiba-dev
+  namespace: sock-shop
   labels:
     app: catalogue
 

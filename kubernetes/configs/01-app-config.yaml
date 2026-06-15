@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: app-config
-  namespace: habiba-dev
+  namespace: sock-shop
 data:
   JAVA_OPTS: "-Xms64m -Xmx128m"
   USER_DB_HOST: "user-db:27017"

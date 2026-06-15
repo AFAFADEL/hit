@@ -2,7 +2,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: catalogue-hpa
-  namespace: habiba-dev
+  namespace: sock-shop
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -22,7 +22,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: carts-hpa
-  namespace: habiba-dev
+  namespace: sock-shop
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -42,7 +42,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: user-hpa
-  namespace: habiba-dev
+  namespace: sock-shop
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -62,7 +62,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: orders-hpa
-  namespace: habiba-dev
+  namespace: sock-shop
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -82,7 +82,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: payment-hpa
-  namespace: habiba-dev
+  namespace: sock-shop
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -102,7 +102,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: shipping-hpa
-  namespace: habiba-dev
+  namespace: sock-shop
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -122,7 +122,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: queue-master-hpa
-  namespace: habiba-dev
+  namespace: sock-shop
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
