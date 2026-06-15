@@ -39,13 +39,44 @@ on:
         type: boolean
         default: false
 
+      aws_region:
+        description: "AWS region for EKS and AWS CLI"
+        required: false
+        type: string
+        default: us-east-1
+
 jobs:
   manual-run:
     runs-on: ubuntu-latest
 
+    env:
+      AWS_REGION: ${{ inputs.aws_region }}
+      CLUSTER_NAME: sock-shop-${{ inputs.environment }}-eks
+      KUBE_NAMESPACE: ${{ inputs.namespace }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ inputs.aws_region }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.8
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'latest'
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
 
       - name: Show selected parameters
         run: |
@@ -53,23 +84,39 @@ jobs:
           echo "Namespace: ${{ inputs.namespace }}"
           echo "Action: ${{ inputs.action }}"
           echo "Apply Terraform: ${{ inputs.apply_terraform }}"
+          echo "AWS Region: $AWS_REGION"
+          echo "Cluster Name: $CLUSTER_NAME"
+
+      - name: Terraform Init
+        if: ${{ inputs.action == 'plan' || inputs.inputs.action == 'destroy' || inputs.apply_terraform == true }}
+        working-directory: terraform/eks
+        run: |
+          terraform init -input=false
 
       - name: Terraform Plan
-        if: ${{ inputs.action == 'plan' || inputs.apply_terraform == true }}
+        if: ${{ inputs.action == 'plan' }}
+        working-directory: terraform/eks
         run: |
-          cd terraform/eks
-          terraform init
-          terraform plan
+          terraform plan -input=false
+
+      - name: Terraform Apply
+        if: ${{ inputs.action == 'deploy' && inputs.apply_terraform == true }}
+        working-directory: terraform/eks
+        run: |
+          terraform apply -auto-approve
+
+      - name: Terraform Destroy
+        if: ${{ inputs.action == 'destroy' }}
+        working-directory: terraform/eks
+        run: |
+          terraform destroy -auto-approve
+
+      - name: Configure kubectl for EKS
+        if: ${{ inputs.action == 'deploy' }}
+        run: |
+          aws eks update-kubeconfig --region $AWS_REGION --name $CLUSTER_NAME
 
       - name: Deploy Kubernetes manifests
         if: ${{ inputs.action == 'deploy' }}
         run: |
-          echo "Deploying to namespace: ${{ inputs.namespace }}"
-          kubectl apply -f kubernetes/ -n ${{ inputs.namespace }}
-
-      - name: Destroy Terraform
-        if: ${{ inputs.action == 'destroy' }}
-        run: |
-          cd terraform/eks
-          terraform init
-          terraform destroy -auto-approve
+          kubectl apply -f kubernetes/ -n $KUBE_NAMESPACE
