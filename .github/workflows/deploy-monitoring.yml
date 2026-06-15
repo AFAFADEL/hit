@@ -1,0 +1,40 @@
+name: Deploy monitoring manifests
+
+on:
+  push:
+    paths:
+      - 'kubernetes/monitoring/**'
+      - '.github/workflows/deploy-monitoring.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy monitoring to EKS
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      AWS_REGION: us-west-2     # override in workflow or secrets if needed
+      CLUSTER_NAME: my-eks-cluster
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Update kubeconfig for EKS
+        run: aws eks update-kubeconfig --region "$AWS_REGION" --name "$CLUSTER_NAME"
+
+      - name: Validate manifests (dry-run)
+        run: kubectl apply -f kubernetes/monitoring/ --dry-run=client
+
+      - name: Apply monitoring manifests
+        run: kubectl apply -f kubernetes/monitoring/
+
+      - name: Verify monitoring namespace pods
+        run: kubectl get pods -n monitoring --show-labels || true
